@@ -75,16 +75,10 @@ export default {
 
             // Check for an array of custom characters and iterate over them
             if (msg.cusChars && Array.isArray(msg.cusChars)) {
-                console.log(msg.cusChars)
                 msg.cusChars.forEach(charObj => {
                     const row = charObj.row || 0;
                     const col = charObj.col || 0;
                     const charData = charObj.char || [];
-
-                    // Set the custom character using the provided data
-                    console.log(row)
-                    console.log(col)
-                    console.log(charData)
                     
                     this.lcd.set(row, col, charData);
                 });
