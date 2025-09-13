@@ -19,30 +19,32 @@
 
         <li>
             <h3>Format the Custom Character Payload:</h3>
-            <p>After generating the hex values, you need to format the data into an array before sending it to the LCD display.</p>
+            <p>After generating the hex values, you need to format the data into a payload before sending it to the LCD display. To send multiple custom characters, use an array of objects for <code>msg.cusChars</code>.</p>
             <pre>
-msg.cusChar = [
-    0x1F,
-    0x1F,
-    0x1F,
-    0x1F,
-    0x1F,
-    0x1F,
-    0x1F,
-    0x1F
+msg.cusChars = [
+    {
+        "char": [0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F],
+        "row": 0,
+        "col": 0
+    },
+    {
+        "char": [0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x00, 0x00],
+        "row": 0,
+        "col": 1
+    }
 ];
 
 return msg;
             </pre>
             <ul>
-                <li><code>msg.cusChar</code> should contain the hex values of the custom character.</li>
-                <li>You can adjust the array to match the design of your custom character.</li>
+                <li>The <code>msg.cusChars</code> property should contain an array of character objects.</li>
+                <li>Each object must contain the <code>char</code> data (the hex values), and optionally the <code>row</code> and <code>col</code> to specify the character's position.</li>
             </ul>
         </li>
 
         <li>
             <h3>Send the Payload:</h3>
-            <p>Once the payload is formatted, send it to your LCD display using the appropriate function or node to update the display with your custom character.</p>
+            <p>Once the payload is formatted, send it to your LCD display using the appropriate function or node to update the display with your custom characters.</p>
         </li>
     </ol>
 </script>

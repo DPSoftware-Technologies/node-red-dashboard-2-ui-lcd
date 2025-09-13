@@ -68,19 +68,35 @@ export default {
     },
     methods: {
         updateLCD(msg) {
-            // Auto clear condition: Check if msg.setChar exists or fallback to this.props.auto_clear            
-            if ((this.props.auto_clear) || msg.clear) {
+            // Auto clear condition: Check if msg.clear is true or fallback to this.props.auto_clear
+            if (this.props.auto_clear || msg.clear) {
                 this.lcd.clear();
             }
 
-            var row = msg.row || 0;
-            var col = msg.col || 0;
+            // Check for an array of custom characters and iterate over them
+            if (msg.cusChars && Array.isArray(msg.cusChars)) {
+                console.log(msg.cusChars)
+                msg.cusChars.forEach(charObj => {
+                    const row = charObj.row || 0;
+                    const col = charObj.col || 0;
+                    const charData = charObj.char || [];
 
-            if (msg.cusChar && Array.isArray(msg.cusChar)) {
-                this.lcd.set(row, col, msg.cusChar);
-            } 
+                    // Set the custom character using the provided data
+                    console.log(row)
+                    console.log(col)
+                    console.log(charData)
+                    
+                    this.lcd.set(row, col, charData);
+                });
+            }
 
-            this.lcd.text(row, col, (msg.text?.toString() || msg.payload?.toString()) ?? "");
+            // If a text message exists, display it at the specified row and column
+            if (msg.text || msg.payload) {
+                const row = msg.row || 0;
+                const col = msg.col || 0;
+                const displayText = (msg.text?.toString() || msg.payload?.toString()) ?? "";
+                this.lcd.text(row, col, displayText);
+            }
         }
     }
 }

@@ -81,15 +81,13 @@
             "6447cdf97ea1896a",
             "508cc7fb69664b72",
             "3526d5dfcbb84243",
-            "7aced3bdfa9f7136",
             "660da20826e4be22",
-            "7b290cd8bdb5391b",
-            "50bea0c384decab4"
+            "7b290cd8bdb5391b"
         ],
         "x": 14,
         "y": 459,
-        "w": 692,
-        "h": 222
+        "w": 672,
+        "h": 162
     },
     {
         "id": "b34da12927cc3a1d",
@@ -470,7 +468,7 @@
         "order": 1,
         "width": 0,
         "height": 0,
-        "content": "This Node allows you to send custom characters to an LCD display in Node-RED. You can easily create custom characters using the **LCD Character Creator** tool and send them to your display.\n\n### Steps to Create and Send Custom Characters\n\n1. **Create a Custom Character:**\n   - Go to [LCD Character Creator](https://maxpromer.github.io/LCD-Character-Creator/).\n   - Design your custom character.\n   - Set the \"Data Type\" option to \"Hex.\"\n   - Copy the generated hex values for the custom character.\n\n2. **Format the Custom Character Payload:**\n   After generating the hex values, you need to format the data into an array before sending it to the LCD display.\n\n   Example of how to set the custom character:\n\n   ```js\n   msg.cusChar = [\n       0x1F,\n       0x1F,\n       0x1F,\n       0x1F,\n       0x1F,\n       0x1F,\n       0x1F,\n       0x1F\n   ];\n\n   return msg;\n   ```\n\n   - `msg.cusChar` should contain the hex values of the custom character.\n   - You can adjust the array to match the design of your custom character.\n\n3. **Send the Payload:**\n   Once the payload is formatted, send it to your LCD display using the appropriate function or node to update the display with your custom character.\n\n",
+        "content": "This Node allows you to send custom characters to an LCD display in Node-RED. You can easily create custom characters using the [LCD Character Creator](https://maxpromer.github.io/LCD-Character-Creator/) tool and send them to your display.\n\n1. Create a Custom Character:\n   * Go to the [LCD Character Creator](https://maxpromer.github.io/LCD-Character-Creator/).\n   * Design your custom character.\n   * Set the \"Data Type\" option to \"Hex.\"\n   * Copy the generated hex values for the custom character.\n\n2. Format the Custom Character Payload:\n   After generating the hex values, you need to format the data into a payload before sending it to the LCD display. To send multiple custom characters, use an array of objects for `msg.cusChars`.\n\n   ```javascript\n   msg.cusChars = [\n      {\n         \"char\": [0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F],\n         \"row\": 0,\n         \"col\": 0\n      },\n      {\n         \"char\": [0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x00, 0x00],\n         \"row\": 0,\n         \"col\": 1\n      }\n   ];\n\n   return msg;\n   ```\n\n   * The `msg.cusChars` property should contain an array of character objects.\n   * Each object must contain the `char` data (the hex values), and optionally the `row` and `col` to specify the character's position.\n3. Send the Payload:\n   Once the payload is formatted, send it to your LCD display using the appropriate function or node to update the display with your custom characters.",
         "className": "",
         "x": 350,
         "y": 500,
@@ -511,11 +509,10 @@
         "pointerupPayload": "",
         "pointerupPayloadType": "str",
         "x": 90,
-        "y": 600,
+        "y": 540,
         "wires": [
             [
-                "3526d5dfcbb84243",
-                "50bea0c384decab4"
+                "3526d5dfcbb84243"
             ]
         ]
     },
@@ -539,7 +536,7 @@
         "auto_clear": false,
         "rom": "eu",
         "x": 610,
-        "y": 600,
+        "y": 540,
         "wires": []
     },
     {
@@ -548,7 +545,7 @@
         "z": "17198d95159c5227",
         "g": "263938e8e63c7ffe",
         "name": "Custom Character ",
-        "func": "let custom_char_msg = {\n    cusChar: [\n        0x00,\n        0x00,\n        0x0A,\n        0x15,\n        0x11,\n        0x0A,\n        0x04,\n        0x00\n    ],\n    col: 11,\n    row: 0\n}\n\nreturn custom_char_msg;",
+        "func": "let custom_char_msg = {\n    text: \"DPSoftware\",\n    col: 0,\n    row: 0,\n    \n    cusChars: [\n        {\n            char: [\n                0x00,\n                0x00,\n                0x0A,\n                0x15,\n                0x11,\n                0x0A,\n                0x04,\n                0x00\n            ],\n            col: 11,\n            row: 0,\n        }\n    ]\n}\n\nreturn custom_char_msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -556,29 +553,12 @@
         "finalize": "",
         "libs": [],
         "x": 350,
-        "y": 600,
+        "y": 540,
         "wires": [
             [
                 "508cc7fb69664b72"
             ]
         ]
-    },
-    {
-        "id": "7aced3bdfa9f7136",
-        "type": "debug",
-        "z": "17198d95159c5227",
-        "g": "263938e8e63c7ffe",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 600,
-        "y": 560,
-        "wires": []
     },
     {
         "id": "660da20826e4be22",
@@ -613,7 +593,7 @@
         "pointerupPayload": "",
         "pointerupPayloadType": "str",
         "x": 90,
-        "y": 640,
+        "y": 580,
         "wires": [
             [
                 "7b290cd8bdb5391b"
@@ -634,28 +614,7 @@
         "finalize": "",
         "libs": [],
         "x": 350,
-        "y": 640,
-        "wires": [
-            [
-                "508cc7fb69664b72"
-            ]
-        ]
-    },
-    {
-        "id": "50bea0c384decab4",
-        "type": "function",
-        "z": "17198d95159c5227",
-        "g": "263938e8e63c7ffe",
-        "name": "Text",
-        "func": "let text_msg = {\n    payload: \"DPSoftware\",\n    col: 0,\n    row: 0\n}\n\nreturn text_msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 350,
-        "y": 560,
+        "y": 580,
         "wires": [
             [
                 "508cc7fb69664b72"

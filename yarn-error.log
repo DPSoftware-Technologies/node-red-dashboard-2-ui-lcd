@@ -1,0 +1,104 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js lint:js --fix
+
+PATH: 
+  C:\Users\sansw\Desktop\MyFiles\node-red-dashboard-2-ui-lcd\node_modules\.bin;C:\Users\sansw\Desktop\MyFiles\node_modules\.bin;C:\Users\sansw\Desktop\node_modules\.bin;C:\Users\sansw\node_modules\.bin;C:\Users\node_modules\.bin;C:\node_modules\.bin;C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\run-script\lib\node-gyp-bin;C:\Users\sansw\Desktop\MyFiles\node-red-dashboard-2-ui-lcd\node_modules\.bin;C:\Users\sansw\Desktop\MyFiles\node_modules\.bin;C:\Users\sansw\Desktop\node_modules\.bin;C:\Users\sansw\node_modules\.bin;C:\Users\node_modules\.bin;C:\node_modules\.bin;C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\run-script\lib\node-gyp-bin;E:\VulkanSDK143211\Bin;C:\Program Files\Eclipse Adoptium\jdk-17.0.15.6-hotspot\bin;C:\Program Files\Eclipse Adoptium\jdk-11.0.27.6-hotspot\bin;C:\Program Files\Eclipse Adoptium\jdk-21.0.5.11-hotspot\bin;D:\softwares\ImageMagick-7.1.1-Q16-HDRI;C:\Program Files\TSDuck\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.4\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.4\libnvvp;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\Program Files (x86)\VMware\VMware Workstation\bin;C:\Program Files\Eclipse Adoptium\jdk-18.0.2.101-hotspot\bin;C:\Program Files\Eclipse Foundation\jdk-16.0.2.7-hotspot\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\dotnet;C:\Program Files\nodejs;C:\Program Files\Cloudflare\Cloudflare WARP;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\cloudflared\.;C:\Program Files\PuTTY;C:\Program Files (x86)\Yarn\bin;C:\Program Files\usbipd-win;C:\Program Files (x86)\GitExtensions;C:\Program Files (x86)\ZeroTier\One;C:\Program Files\NVIDIA Corporation\Nsight Compute 2024.1.1;C:\Program Files\NVIDIA Corporation\NVIDIA App\NvDLISR;D:\softwares\Docker\resources\bin;C:\Program Files\WorldPainter;C:\Program Files\dotnet\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\CMake\bin;C:\Program Files\Sunshine;C:\Program Files\Sunshine\tools;C:\Program Files (x86)\ZeroTier\One\;D:\softwares\foobar2000\encoders;C:\ffmpeg-master-latest-win64-gpl\bin;C:\Users\sansw\AppData\Local\Programs\Python\Python310;C:\Users\sansw\AppData\Local\Programs\Python\Python310\Scripts;C:\msys64\mingw64\bin;C:\Users\sansw\AppData\Local\Microsoft\WindowsApps;C:\Users\sansw\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2022.2.3\bin;;C:\Program Files\JetBrains\PyCharm Community Edition 2023.1.2\bin;;C:\Users\sansw\AppData\Local\GitHubDesktop\bin;C:\Users\sansw\AppData\Local\Android\sdk\platform-tools;C:\mingw64\bin;C:\Program Files\MKVToolNix;C:\Users\sansw\bin;C:\Users\sansw\AppData\Local\Yarn\bin;C:\faac;C:\Program Files\Git\bin;C:\DEV;C:\pulseaudio\bin;C:\msys64;C:\Users\sansw\vcpkg;C:\Program Files (x86)\Nmap;C:\Program Files\Blender Foundation\Blender 4.0;C:\Users\sansw\.bun\bin;C:\htop;C:\Users\sansw\AppData\Local\Android\Sdk\build-tools\34.0.0;C:\btop4win;C:\Program Files (x86)\sox-14-4-2;D:\softwares\mpvplayer;C:\phantomjs-2.1.1-windows\bin;C:\Users\sansw\AppData\Local\Android\sdk;C:\fluidsynth;C:\Users\sansw\AppData\Roaming\npm;C:\Users\sansw\.dotnet\tools;D:\softwares\MKVToolNix;C:\Program Files\7-Zip;C:\Users\sansw\AppData\Local\Programs\MiKTeX\miktex\bin\x64\;E:\w64devkit;C:\libcaca;
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  20.17.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  SyntaxError: C:\Users\sansw\Desktop\MyFiles\package.json: Unexpected token ',', ..."ription": ,
+    "main""... is not valid JSON
+      at JSON.parse (<anonymous>)
+      at C:\Program Files (x86)\Yarn\lib\cli.js:1629:59
+      at Generator.next (<anonymous>)
+      at step (C:\Program Files (x86)\Yarn\lib\cli.js:310:30)
+      at C:\Program Files (x86)\Yarn\lib\cli.js:321:13
+
+npm manifest: 
+  {
+      "name": "@dpsoftware/node-red-dashboard-2-ui-lcd",
+      "version": "1.2.6",
+      "description": "Character LCD for Node-Red Dashboard 2",
+      "keywords": [
+          "node-red",
+          "node-red-dashboard-2"
+      ],
+      "repository": {
+          "type": "git",
+          "url": "git+https://github.com/DPSoftware-Foundation/node-red-dashboard-2-ui-lcd.git"
+      },
+      "license": "Apache-2.0",
+      "author": {
+          "name": "DPSoftware Foundation",
+          "url": "https://damp11113.xyz"
+      },
+      "exports": {
+          "import": "./resources/ui-lcd.esm.js",
+          "require": "./resources/ui-lcd.umd.js"
+      },
+      "files": [
+          "nodes/*",
+          "ui/*",
+          "resources/*"
+      ],
+      "scripts": {
+          "build": "vite build",
+          "build:dev": "NODE_ENV=development vite build",
+          "dev": "NODE_ENV=development vite build --watch",
+          "dev:prod": "vite build --watch",
+          "lint": "npm run lint:js && npm run lint:package",
+          "lint:fix": "npm run lint:js:fix && npm run lint:package:fix",
+          "lint:js": "eslint --ext .js,.vue,.cjs,.mjs .",
+          "lint:js:fix": "yarn lint:js --fix",
+          "lint:package": "sort-package-json --check 'package.json'",
+          "lint:package:fix": "sort-package-json 'package.json'"
+      },
+      "dependencies": {
+          "char-lcd": "github:jazz-soft/char-lcd",
+          "vue": "^3.3.8",
+          "vuex": "^4.1.0"
+      },
+      "devDependencies": {
+          "@vitejs/plugin-vue": "^4.5.0",
+          "eslint": "^8.53.0",
+          "eslint-config-standard": "^17.1.0",
+          "eslint-plugin-import": "^2.29.0",
+          "eslint-plugin-n": "^16.3.1",
+          "eslint-plugin-vue": "^9.18.1",
+          "vite": "^5.0.13",
+          "vite-plugin-css-injected-by-js": "^3.3.0",
+          "vite-plugin-static-copy": "^1.0.6"
+      },
+      "engines": {
+          "node": ">=14"
+      },
+      "node-red": {
+          "version": ">=3.0.0",
+          "nodes": {
+              "ui-lcd": "nodes/ui-lcd.js"
+          }
+      },
+      "node-red-dashboard-2": {
+          "version": "1.0.0",
+          "widgets": {
+              "ui-lcd": {
+                  "output": "ui-lcd.umd.js",
+                  "component": "UILCD"
+              }
+          }
+      }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

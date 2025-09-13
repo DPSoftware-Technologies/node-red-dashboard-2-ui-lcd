@@ -1,6 +1,6 @@
 {
     "name": "@dpsoftware/node-red-dashboard-2-ui-lcd",
-    "version": "1.2.5",
+    "version": "1.2.6",
     "description": "Character LCD for Node-Red Dashboard 2",
     "keywords": [
         "node-red",
