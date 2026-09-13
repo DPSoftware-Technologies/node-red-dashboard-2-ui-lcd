@@ -1,7 +1,7 @@
 const { DisplayHistory } = require('./lib/history.js')
 
 module.exports = function (RED) {
-    function UILCDNode (config) {
+    function UIGraphicLCDNode (config) {
         RED.nodes.createNode(this, config)
         const node = this
 
@@ -13,7 +13,7 @@ module.exports = function (RED) {
         }
         const base = group.getBase()
 
-        const history = new DisplayHistory(RED, 'char', config, base.stores.data.get(node.id))
+        const history = new DisplayHistory(RED, 'graphic', config, base.stores.data.get(node.id))
 
         // Server-side event handlers
         const evts = {
@@ -41,5 +41,5 @@ module.exports = function (RED) {
         group.register(node, config, evts)
     }
 
-    RED.nodes.registerType('ui-lcd', UILCDNode)
+    RED.nodes.registerType('ui-glcd', UIGraphicLCDNode)
 }

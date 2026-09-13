@@ -1,0 +1,76 @@
+<script type="text/html" data-help-name="ui-glcd">
+    <p>Graphic LCD for the dashboard: a pixel matrix without character blocks, like the 128x64 graphic LCD modules.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt class="optional">payload <span class="property-type">string | number | array | object</span></dt>
+        <dd>A string or number is printed with the ROM font at <code>msg.x</code>, <code>msg.y</code>.
+            An array of commands, or a single command object, is drawn in order: see <b>Commands</b>.</dd>
+        <dt class="optional">text <span class="property-type">string</span></dt>
+        <dd>Printed instead of <code>msg.payload</code>.</dd>
+        <dt class="optional">x, y <span class="property-type">number</span></dt>
+        <dd>Top left corner of <code>msg.text</code> or <code>msg.payload</code>. Default 0.</dd>
+        <dt class="optional">commands <span class="property-type">array</span></dt>
+        <dd>Commands drawn after the ones in <code>msg.payload</code>.</dd>
+        <dt class="optional">fonts <span class="property-type">array</span></dt>
+        <dd>Redefine characters of the ROM font: <code>[{"code": 0, "data": [0, 10, 31, 31, 14, 4, 0, 0]}]</code>.</dd>
+        <dt class="optional">clear <span class="property-type">boolean</span></dt>
+        <dd>Clear the display before drawing.</dd>
+        <dt class="optional">backlight <span class="property-type">boolean | "toggle"</span></dt>
+        <dd>Turn the backlight on or off, or toggle it.</dd>
+        <dt class="optional">contrast <span class="property-type">number</span></dt>
+        <dd>0 to 1. At 0.5 the colors are shown as is; lower fades the pixels out, higher shows the unlit pixels.</dd>
+        <dt class="optional">bright <span class="property-type">number</span></dt>
+        <dd>Brightness with the backlight on, 0 (black) to 1.</dd>
+        <dt class="optional">dim <span class="property-type">number</span></dt>
+        <dd>Brightness with the backlight off, 0 (black) to 1.</dd>
+        <dt class="optional">colors <span class="property-type">object</span></dt>
+        <dd>Any of <code>off</code> (backlight), <code>on</code> (pixels) and <code>block</code> (unlit pixels at full contrast), as CSS colors.
+            <code>"block": null</code> goes back to the default.</dd>
+    </dl>
+
+    <h3>Commands</h3>
+    <p>A command is an object with a <code>cmd</code> name and its parameters, by name or in order in <code>args</code>:
+        <code>{"cmd": "line", "x0": 0, "y0": 0, "x1": 127, "y1": 63}</code> is the same as
+        <code>{"cmd": "line", "args": [0, 0, 127, 63]}</code>.</p>
+    <p><code>x, y</code> start at <code>0, 0</code> in the top left corner; anything outside the display is clipped.
+        The value <code>v</code> is optional and turns the pixels fully on by default. Normally 0 is off and anything else is on;
+        with <i>Grayscale</i> it goes from 0 (off) to 255 (fully on).</p>
+    <ul>
+        <li><code>pixel</code> x, y, v: set one pixel.</li>
+        <li><code>fill</code> v: set all pixels.</li>
+        <li><code>clear</code>: turn all pixels off.</li>
+        <li><code>line</code> x0, y0, x1, y1, v: draw a line.</li>
+        <li><code>rect</code> x, y, w, h, v: draw a rectangle outline.</li>
+        <li><code>fillRect</code> x, y, w, h, v: draw a filled rectangle.</li>
+        <li><code>circle</code> x, y, r, v: draw a circle outline around <code>x, y</code>.</li>
+        <li><code>fillCircle</code> x, y, r, v: draw a filled circle.</li>
+        <li><code>text</code> x, y, text, v, bg: print text with the ROM font, 6x9 pixels per character, <code>\n</code> starts a new line.
+            If <code>bg</code> is given the character cells are filled with it first.</li>
+        <li><code>bitmap</code> x, y, w, h, data: draw a <code>w</code> x <code>h</code> image from <code>w * h</code> values, row by row.
+            <code>data</code> can also be an array of rows, then <code>w</code> and <code>h</code> are optional.
+            <code>null</code> values are skipped.</li>
+        <li><code>font</code> code, data: define the pixels of a character.</li>
+        <li><code>backlight</code> on: <code>true</code>, <code>false</code> or <code>"toggle"</code>.</li>
+        <li><code>contrast</code>, <code>bright</code>, <code>dim</code> value: 0 to 1.</li>
+        <li><code>colors</code> off, on, block.</li>
+    </ul>
+
+    <h3>Details</h3>
+    <p>A message is applied in this order: <code>backlight</code>, <code>contrast</code>, <code>bright</code>, <code>dim</code>,
+        <code>colors</code>, <code>fonts</code>, clear, <code>text</code> / <code>payload</code> text,
+        commands in <code>payload</code>, <code>commands</code>.</p>
+    <p><i>Auto Clear</i> clears the display before each message that draws something, so every message is a new picture.
+        Turn it off to draw step by step. Messages with only settings, like <code>msg.backlight</code>, keep the picture.</p>
+    <p>Dashboards opened later redraw the display from the messages since it was last cleared or filled (up to 1000),
+        with the settings of the older ones.</p>
+
+    <h3>Example</h3>
+    <pre>msg.payload = [
+    { cmd: "rect", x: 0, y: 0, w: 128, h: 64 },
+    { cmd: "text", x: 4, y: 4, text: "Hello LCD!" },
+    { cmd: "line", args: [4, 60, 60, 16] },
+    { cmd: "fillCircle", x: 100, y: 40, r: 10 }
+];
+return msg;</pre>
+</script>

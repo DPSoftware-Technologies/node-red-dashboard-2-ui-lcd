@@ -1,16 +1,16 @@
 <template>
-    <span v-if="Label">{{ Label }}</span>
+    <span v-if="label">{{ label }}</span>
     <div ref="display" />
 </template>
 
 <script>
-import { CharLCD } from 'char-lcd'
+import { GraphicLCD } from 'char-lcd'
 import { mapState } from 'vuex'
 
-import { applyCharMessage, displayOptions } from '../lib/display.js'
+import { applyGraphicMessage, displayOptions } from '../lib/display.js'
 
 export default {
-    name: 'LCD',
+    name: 'GraphicLCD',
     inject: ['$socket'],
     props: {
         id: { type: String, required: true },
@@ -19,8 +19,8 @@ export default {
     },
     computed: {
         ...mapState('data', ['messages']),
-        Label () {
-            return this.props.label || 'LCD'
+        label () {
+            return this.props.label
         }
     },
     mounted () {
@@ -41,10 +41,11 @@ export default {
             const at = this.$refs.display
             if (!at) return
             at.replaceChildren()
-            this.lcd = new CharLCD({
+            this.lcd = new GraphicLCD({
                 ...displayOptions(this.props, at),
-                rows: this.props.rows || 2,
-                cols: this.props.cols || 16
+                width: this.props.lcd_width || 128,
+                height: this.props.lcd_height || 64,
+                grayscale: !!this.props.grayscale
             })
         },
         onLoad (msg) {
@@ -60,7 +61,7 @@ export default {
             this.apply(msg)
         },
         apply (msg) {
-            if (msg && this.lcd) applyCharMessage(this.lcd, msg, this.props.auto_clear)
+            if (msg && this.lcd) applyGraphicMessage(this.lcd, msg, this.props.auto_clear)
         }
     }
 }

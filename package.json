@@ -1,10 +1,12 @@
 {
     "name": "@dpsoftware/node-red-dashboard-2-ui-lcd",
     "version": "1.2.7",
-    "description": "Character LCD for Node-Red Dashboard 2",
+    "description": "Character LCD and Graphic LCD for Node-Red Dashboard 2",
     "keywords": [
         "node-red",
-        "node-red-dashboard-2"
+        "node-red-dashboard-2",
+        "lcd",
+        "graphic-lcd"
     ],
     "repository": {
         "type": "git",
@@ -20,15 +22,17 @@
         "require": "./resources/ui-lcd.umd.js"
     },
     "files": [
+        "examples/*",
         "nodes/*",
         "ui/*",
         "resources/*"
     ],
     "scripts": {
-        "build": "vite build",
-        "build:dev": "NODE_ENV=development vite build",
-        "dev": "NODE_ENV=development vite build --watch",
-        "dev:prod": "vite build --watch",
+        "build": "vite build --mode ui-lcd && vite build --mode ui-glcd",
+        "build:dev": "NODE_ENV=development vite build --mode ui-lcd && NODE_ENV=development vite build --mode ui-glcd",
+        "dev": "NODE_ENV=development vite build --watch --mode ui-lcd",
+        "dev:glcd": "NODE_ENV=development vite build --watch --mode ui-glcd",
+        "dev:prod": "vite build --watch --mode ui-lcd",
         "lint": "npm run lint:js && npm run lint:package",
         "lint:fix": "npm run lint:js:fix && npm run lint:package:fix",
         "lint:js": "eslint --ext .js,.vue,.cjs,.mjs .",
@@ -37,7 +41,7 @@
         "lint:package:fix": "sort-package-json 'package.json'"
     },
     "dependencies": {
-        "char-lcd": "github:jazz-soft/char-lcd",
+        "char-lcd": "github:damp11113/char-lcd-plus",
         "vue": "^3.3.8",
         "vuex": "^4.1.0"
     },
@@ -58,7 +62,8 @@
     "node-red": {
         "version": ">=3.0.0",
         "nodes": {
-            "ui-lcd": "nodes/ui-lcd.js"
+            "ui-lcd": "nodes/ui-lcd.js",
+            "ui-glcd": "nodes/ui-glcd.js"
         }
     },
     "node-red-dashboard-2": {
@@ -67,6 +72,10 @@
             "ui-lcd": {
                 "output": "ui-lcd.umd.js",
                 "component": "UILCD"
+            },
+            "ui-glcd": {
+                "output": "ui-glcd.umd.js",
+                "component": "UIGraphicLCD"
             }
         }
     }

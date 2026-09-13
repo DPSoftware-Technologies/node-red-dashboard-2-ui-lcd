@@ -1,50 +1,84 @@
 <script type="text/html" data-help-name="ui-lcd">
-    <p>Add Character LCD to dashboard.</p>
-    
-    <h1>Send Custom Characters to an LCD Display in Node-RED</h1>
-    <p>This Node allows you to send custom characters to an LCD display in Node-RED. You can easily create custom characters using the <strong><a href="https://maxpromer.github.io/LCD-Character-Creator/" target="_blank">LCD Character Creator</a></strong> tool and send them to your display.</p>
+    <p>Character LCD (Hitachi HD44780 style) for the dashboard.</p>
 
-    <h2>Steps to Create and Send Custom Characters</h2>
-    
-    <ol>
-        <li>
-            <h3>Create a Custom Character:</h3>
-            <ul>
-                <li>Go to the <a href="https://maxpromer.github.io/LCD-Character-Creator/" target="_blank">LCD Character Creator</a>.</li>
-                <li>Design your custom character.</li>
-                <li>Set the "Data Type" option to "Hex."</li>
-                <li>Copy the generated hex values for the custom character.</li>
-            </ul>
-        </li>
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt class="optional">payload <span class="property-type">string | number | array | object</span></dt>
+        <dd>A string or number is printed at <code>msg.row</code>, <code>msg.col</code>.
+            An array of commands, or a single command object, is run in order: see <b>Commands</b>.</dd>
+        <dt class="optional">text <span class="property-type">string</span></dt>
+        <dd>Printed instead of <code>msg.payload</code>. <code>\n</code> starts a new row.</dd>
+        <dt class="optional">row, col <span class="property-type">number</span></dt>
+        <dd>Where <code>msg.text</code> or <code>msg.payload</code> starts. Default 0.</dd>
+        <dt class="optional">texts <span class="property-type">array</span></dt>
+        <dd>Several texts at once, used instead of <code>msg.text</code> and <code>msg.payload</code>:
+            <code>[{"row": 0, "col": 0, "text": "Hello"}]</code>.</dd>
+        <dt class="optional">chars <span class="property-type">array</span></dt>
+        <dd>Single characters by their code: <code>[{"row": 0, "col": 15, "code": 0}]</code>.</dd>
+        <dt class="optional">cusChars <span class="property-type">array</span></dt>
+        <dd>The 5x8 pixels of character cells: <code>[{"row": 0, "col": 0, "char": [31, 17, 17, 17, 17, 17, 17, 31]}]</code>.
+            See <b>Custom characters</b>.</dd>
+        <dt class="optional">fonts <span class="property-type">array</span></dt>
+        <dd>Redefine characters (up to 10 rows of pixels each): <code>[{"code": 0, "data": [0, 10, 31, 31, 14, 4, 0, 0]}]</code>.
+            Characters already on the display are not redrawn.</dd>
+        <dt class="optional">commands <span class="property-type">array</span></dt>
+        <dd>Commands run after everything else in the message.</dd>
+        <dt class="optional">clear <span class="property-type">boolean</span></dt>
+        <dd>Clear the display before drawing.</dd>
+        <dt class="optional">backlight <span class="property-type">boolean | "toggle"</span></dt>
+        <dd>Turn the backlight on or off, or toggle it. Switching is instant, like a real LED backlight.</dd>
+        <dt class="optional">contrast <span class="property-type">number</span></dt>
+        <dd>0 to 1. At 0.5 the colors are shown as is; lower fades the text out, higher shows the unlit character blocks.</dd>
+        <dt class="optional">bright <span class="property-type">number</span></dt>
+        <dd>Brightness with the backlight on, 0 (black) to 1.</dd>
+        <dt class="optional">dim <span class="property-type">number</span></dt>
+        <dd>Brightness with the backlight off, 0 (black) to 1.</dd>
+        <dt class="optional">colors <span class="property-type">object</span></dt>
+        <dd>Any of <code>off</code> (backlight), <code>on</code> (pixels) and <code>block</code> (unlit pixels at full contrast), as CSS colors.
+            <code>"block": null</code> goes back to the default.</dd>
+    </dl>
 
-        <li>
-            <h3>Format the Custom Character Payload:</h3>
-            <p>After generating the hex values, you need to format the data into a payload before sending it to the LCD display. To send multiple custom characters, use an array of objects for <code>msg.cusChars</code>.</p>
-            <pre>
-msg.cusChars = [
-    {
-        "char": [0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F],
-        "row": 0,
-        "col": 0
-    },
-    {
-        "char": [0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x00, 0x00],
-        "row": 0,
-        "col": 1
-    }
+    <h3>Commands</h3>
+    <p>A command is an object with a <code>cmd</code> name and its parameters, by name or in order in <code>args</code>:
+        <code>{"cmd": "text", "row": 1, "col": 2, "text": "Hi"}</code> is the same as
+        <code>{"cmd": "text", "args": [1, 2, "Hi"]}</code>.</p>
+    <ul>
+        <li><code>text</code> row, col, text: print text, <code>\n</code> starts a new row. Unicode is mapped to the ROM characters.</li>
+        <li><code>char</code> row, col, code: show the character with this code (or the first character of a string).</li>
+        <li><code>set</code> row, col, data: set the 5x8 pixels of one character cell.</li>
+        <li><code>font</code> code, data: define the pixels of a character.</li>
+        <li><code>clear</code>: clear all characters.</li>
+        <li><code>backlight</code> on: <code>true</code>, <code>false</code> or <code>"toggle"</code>.</li>
+        <li><code>contrast</code>, <code>bright</code>, <code>dim</code> value: 0 to 1.</li>
+        <li><code>colors</code> off, on, block.</li>
+    </ul>
+
+    <h3>Details</h3>
+    <p>A message is applied in this order: <code>backlight</code>, <code>contrast</code>, <code>bright</code>, <code>dim</code>,
+        <code>colors</code>, <code>fonts</code>, clear, <code>cusChars</code>, <code>chars</code>, <code>texts</code>
+        (or <code>text</code> / <code>payload</code>), commands in <code>payload</code>, <code>commands</code>.</p>
+    <p><i>Auto Clear</i> clears the display before each message that draws something.
+        Messages with only settings, like <code>msg.backlight</code>, keep the text.</p>
+    <p>Dashboards opened later redraw the display from the messages since it was last cleared (up to 1000),
+        with the settings of the older ones.</p>
+
+    <h3>Example</h3>
+    <pre>msg.fonts = [{ code: 0, data: [0, 10, 31, 31, 14, 4, 0, 0] }];
+msg.texts = [
+    { row: 0, col: 0, text: "Hello LCD!" },
+    { row: 1, col: 0, text: "ЁЛКИ-ПАЛКИ!" }
 ];
+msg.chars = [{ row: 0, col: 15, code: 0 }];
+msg.contrast = 0.6;
+return msg;</pre>
 
-return msg;
-            </pre>
-            <ul>
-                <li>The <code>msg.cusChars</code> property should contain an array of character objects.</li>
-                <li>Each object must contain the <code>char</code> data (the hex values), and optionally the <code>row</code> and <code>col</code> to specify the character's position.</li>
-            </ul>
-        </li>
-
-        <li>
-            <h3>Send the Payload:</h3>
-            <p>Once the payload is formatted, send it to your LCD display using the appropriate function or node to update the display with your custom characters.</p>
-        </li>
-    </ol>
+    <h3>Custom characters</h3>
+    <p>Design a character with the <a href="https://maxpromer.github.io/LCD-Character-Creator/" target="_blank">LCD Character Creator</a>,
+        set the "Data Type" option to "Hex" and copy the values into <code>msg.cusChars</code>:</p>
+    <pre>msg.cusChars = [
+    { "char": [0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F], "row": 0, "col": 0 },
+    { "char": [0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x00, 0x00], "row": 0, "col": 1 }
+];
+return msg;</pre>
+    <p>To reuse a character in texts, define it with <code>msg.fonts</code> instead and print its code.</p>
 </script>

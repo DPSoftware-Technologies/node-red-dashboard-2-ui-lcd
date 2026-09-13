@@ -1,0 +1,713 @@
+[
+    {
+        "id": "c0de000000000001",
+        "type": "tab",
+        "label": "LCD Features",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c0de000000000002",
+        "type": "ui-group",
+        "name": "Character LCD features",
+        "page": "f72914043b649b14",
+        "width": 6,
+        "height": 1,
+        "order": 10,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "c0de000000000003",
+        "type": "ui-lcd",
+        "z": "c0de000000000001",
+        "name": "",
+        "group": "c0de000000000002",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "pixel_size": 2,
+        "space_size": 1,
+        "backlight_color": "#ccdd22",
+        "pixel_color": "#474d0b",
+        "use_block_color": false,
+        "block_color": "#000000",
+        "backlight": true,
+        "bright": 1,
+        "dim": 0.4,
+        "contrast": 0.5,
+        "auto_clear": true,
+        "rom": "eu",
+        "transitionDuration": 0,
+        "label": "Character LCD",
+        "rows": 4,
+        "cols": 20,
+        "x": 760,
+        "y": 210,
+        "wires": []
+    },
+    {
+        "id": "c0de000000000004",
+        "type": "function",
+        "z": "c0de000000000001",
+        "name": "Write texts",
+        "func": "msg.clear = true;\n// a heart for character code 0\nmsg.fonts = [{ code: 0, data: [0x00, 0x0a, 0x1f, 0x1f, 0x0e, 0x04, 0x00, 0x00] }];\nmsg.texts = [\n    { row: 0, col: 0, text: 'Character LCD' },\n    { row: 1, col: 0, text: 'Unicode: ЁЛКИ-ПАЛКИ!' }\n];\nmsg.chars = [{ row: 3, col: 19, code: 0 }];\nmsg.commands = [\n    { cmd: 'text', args: [2, 0, 'Arrows: ←↑→↓'] },\n    { cmd: 'text', row: 3, col: 0, text: 'Custom char:' }\n];\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 60,
+        "wires": [
+            [
+                "c0de000000000003"
+            ]
+        ]
+    },
+    {
+        "id": "c0de000000000005",
+        "type": "inject",
+        "z": "c0de000000000001",
+        "name": "Write texts",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.5,
+        "topic": "",
+        "x": 170,
+        "y": 60,
+        "wires": [
+            [
+                "c0de000000000004"
+            ]
+        ],
+        "payload": "",
+        "payloadType": "str"
+    },
+    {
+        "id": "c0de000000000006",
+        "type": "inject",
+        "z": "c0de000000000001",
+        "name": "Backlight toggle",
+        "props": [
+            {
+                "p": "backlight",
+                "v": "toggle",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 170,
+        "y": 110,
+        "wires": [
+            [
+                "c0de000000000003"
+            ]
+        ]
+    },
+    {
+        "id": "c0de000000000007",
+        "type": "inject",
+        "z": "c0de000000000001",
+        "name": "Contrast 0.8",
+        "props": [
+            {
+                "p": "contrast",
+                "v": "0.8",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 170,
+        "y": 160,
+        "wires": [
+            [
+                "c0de000000000003"
+            ]
+        ]
+    },
+    {
+        "id": "c0de000000000008",
+        "type": "inject",
+        "z": "c0de000000000001",
+        "name": "Contrast 0.5",
+        "props": [
+            {
+                "p": "contrast",
+                "v": "0.5",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 170,
+        "y": 210,
+        "wires": [
+            [
+                "c0de000000000003"
+            ]
+        ]
+    },
+    {
+        "id": "c0de000000000009",
+        "type": "inject",
+        "z": "c0de000000000001",
+        "name": "Dim 0.1 (backlight off)",
+        "props": [
+            {
+                "p": "dim",
+                "v": "0.1",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 170,
+        "y": 260,
+        "wires": [
+            [
+                "c0de000000000003"
+            ]
+        ]
+    },
+    {
+        "id": "c0de00000000000a",
+        "type": "inject",
+        "z": "c0de000000000001",
+        "name": "Orange colors",
+        "props": [
+            {
+                "p": "colors",
+                "v": "{\"off\":\"#f80\",\"on\":\"#310\"}",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 170,
+        "y": 310,
+        "wires": [
+            [
+                "c0de000000000003"
+            ]
+        ]
+    },
+    {
+        "id": "c0de00000000000b",
+        "type": "inject",
+        "z": "c0de000000000001",
+        "name": "Blue colors",
+        "props": [
+            {
+                "p": "colors",
+                "v": "{\"off\":\"#2f46f0\",\"on\":\"#dde3f2\",\"block\":null}",
+                "vt": "json"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 170,
+        "y": 360,
+        "wires": [
+            [
+                "c0de000000000003"
+            ]
+        ]
+    },
+    {
+        "id": "c0de00000000000c",
+        "type": "ui-group",
+        "name": "Graphic LCD",
+        "page": "f72914043b649b14",
+        "width": 6,
+        "height": 1,
+        "order": 11,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "c0de00000000000d",
+        "type": "ui-glcd",
+        "z": "c0de000000000001",
+        "name": "",
+        "group": "c0de00000000000c",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "pixel_size": 2,
+        "space_size": 1,
+        "backlight_color": "#ccdd22",
+        "pixel_color": "#474d0b",
+        "use_block_color": false,
+        "block_color": "#000000",
+        "backlight": true,
+        "bright": 1,
+        "dim": 0.4,
+        "contrast": 0.5,
+        "auto_clear": true,
+        "rom": "eu",
+        "transitionDuration": 0,
+        "label": "Graphic LCD",
+        "lcd_width": 128,
+        "lcd_height": 64,
+        "x": 760,
+        "y": 550,
+        "wires": []
+    },
+    {
+        "id": "c0de00000000000e",
+        "type": "function",
+        "z": "c0de000000000001",
+        "name": "Draw shapes",
+        "func": "msg.payload = [\n    { cmd: 'rect', x: 0, y: 0, w: 128, h: 64 },\n    { cmd: 'text', x: 4, y: 4, text: 'Hello LCD!' },\n    { cmd: 'line', args: [4, 60, 60, 16] },\n    { cmd: 'fillCircle', x: 100, y: 40, r: 10 },\n    { cmd: 'circle', x: 100, y: 40, r: 16 },\n    { cmd: 'fillRect', args: [70, 8, 12, 12] }\n];\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 450,
+        "wires": [
+            [
+                "c0de00000000000d"
+            ]
+        ]
+    },
+    {
+        "id": "c0de00000000000f",
+        "type": "inject",
+        "z": "c0de000000000001",
+        "name": "Draw shapes",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.5,
+        "topic": "",
+        "x": 170,
+        "y": 450,
+        "wires": [
+            [
+                "c0de00000000000e"
+            ]
+        ],
+        "payload": "",
+        "payloadType": "str"
+    },
+    {
+        "id": "c0de000000000010",
+        "type": "function",
+        "z": "c0de000000000001",
+        "name": "Bitmap",
+        "func": "const smiley = [\n    [0, 0, 1, 1, 1, 1, 0, 0],\n    [0, 1, 0, 0, 0, 0, 1, 0],\n    [1, 0, 1, 0, 0, 1, 0, 1],\n    [1, 0, 0, 0, 0, 0, 0, 1],\n    [1, 0, 1, 0, 0, 1, 0, 1],\n    [1, 0, 0, 1, 1, 0, 0, 1],\n    [0, 1, 0, 0, 0, 0, 1, 0],\n    [0, 0, 1, 1, 1, 1, 0, 0]\n];\nmsg.payload = { cmd: 'bitmap', x: 60, y: 28, data: smiley };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 500,
+        "wires": [
+            [
+                "c0de00000000000d"
+            ]
+        ]
+    },
+    {
+        "id": "c0de000000000011",
+        "type": "inject",
+        "z": "c0de000000000001",
+        "name": "Bitmap",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 170,
+        "y": 500,
+        "wires": [
+            [
+                "c0de000000000010"
+            ]
+        ],
+        "payload": "",
+        "payloadType": "str"
+    },
+    {
+        "id": "c0de000000000012",
+        "type": "function",
+        "z": "c0de000000000001",
+        "name": "Inverted",
+        "func": "msg.payload = [\n    { cmd: 'fill' },\n    { cmd: 'text', x: 40, y: 28, text: 'INVERTED', v: 0 }\n];\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 550,
+        "wires": [
+            [
+                "c0de00000000000d"
+            ]
+        ]
+    },
+    {
+        "id": "c0de000000000013",
+        "type": "inject",
+        "z": "c0de000000000001",
+        "name": "Inverted",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 170,
+        "y": 550,
+        "wires": [
+            [
+                "c0de000000000012"
+            ]
+        ],
+        "payload": "",
+        "payloadType": "str"
+    },
+    {
+        "id": "c0de000000000014",
+        "type": "inject",
+        "z": "c0de000000000001",
+        "name": "Backlight toggle",
+        "props": [
+            {
+                "p": "backlight",
+                "v": "toggle",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 170,
+        "y": 600,
+        "wires": [
+            [
+                "c0de00000000000d"
+            ]
+        ]
+    },
+    {
+        "id": "c0de000000000015",
+        "type": "inject",
+        "z": "c0de000000000001",
+        "name": "Contrast 0.8",
+        "props": [
+            {
+                "p": "contrast",
+                "v": "0.8",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 170,
+        "y": 650,
+        "wires": [
+            [
+                "c0de00000000000d"
+            ]
+        ]
+    },
+    {
+        "id": "c0de000000000016",
+        "type": "ui-glcd",
+        "z": "c0de000000000001",
+        "name": "",
+        "group": "c0de00000000000c",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "pixel_size": 2,
+        "space_size": 1,
+        "backlight_color": "#2f46f0",
+        "pixel_color": "#dde3f2",
+        "use_block_color": false,
+        "block_color": "#000000",
+        "backlight": true,
+        "bright": 1,
+        "dim": 0.4,
+        "contrast": 0.5,
+        "auto_clear": true,
+        "rom": "eu",
+        "transitionDuration": 0,
+        "label": "Clock",
+        "lcd_width": 128,
+        "lcd_height": 64,
+        "x": 760,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "c0de000000000017",
+        "type": "function",
+        "z": "c0de000000000001",
+        "name": "Clock every second",
+        "func": "const now = new Date();\nconst cx = 32;\nconst cy = 32;\nconst r = 28;\nconst hand = (angle, length) => ({\n    cmd: 'line',\n    args: [cx, cy, Math.round(cx + length * Math.sin(angle)), Math.round(cy - length * Math.cos(angle))]\n});\n\nconst commands = [{ cmd: 'circle', x: cx, y: cy, r }];\nfor (let i = 0; i < 12; i++) {\n    const angle = i * Math.PI / 6;\n    commands.push({ cmd: 'pixel', x: Math.round(cx + (r - 4) * Math.sin(angle)), y: Math.round(cy - (r - 4) * Math.cos(angle)) });\n}\nconst hours = now.getHours() % 12 + now.getMinutes() / 60;\ncommands.push(hand(hours * Math.PI / 6, 14));\ncommands.push(hand(now.getMinutes() * Math.PI / 30, 22));\ncommands.push(hand(now.getSeconds() * Math.PI / 30, 26));\ncommands.push({ cmd: 'text', x: 72, y: 28, text: now.toTimeString().slice(0, 8) });\n\nmsg.payload = commands;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 740,
+        "wires": [
+            [
+                "c0de000000000016"
+            ]
+        ]
+    },
+    {
+        "id": "c0de000000000018",
+        "type": "inject",
+        "z": "c0de000000000001",
+        "name": "Clock every second",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 1,
+        "topic": "",
+        "x": 170,
+        "y": 740,
+        "wires": [
+            [
+                "c0de000000000017"
+            ]
+        ],
+        "payload": "",
+        "payloadType": "str"
+    },
+    {
+        "id": "c0de000000000019",
+        "type": "ui-group",
+        "name": "Grayscale Graphic LCD",
+        "page": "f72914043b649b14",
+        "width": 6,
+        "height": 1,
+        "order": 12,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "c0de00000000001a",
+        "type": "ui-glcd",
+        "z": "c0de000000000001",
+        "name": "",
+        "group": "c0de000000000019",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "pixel_size": 2,
+        "space_size": 1,
+        "backlight_color": "#ccdd22",
+        "pixel_color": "#474d0b",
+        "use_block_color": false,
+        "block_color": "#000000",
+        "backlight": true,
+        "bright": 1,
+        "dim": 0.4,
+        "contrast": 0.5,
+        "auto_clear": true,
+        "rom": "eu",
+        "transitionDuration": 0,
+        "label": "Grayscale",
+        "lcd_width": 128,
+        "lcd_height": 32,
+        "grayscale": true,
+        "x": 760,
+        "y": 830,
+        "wires": []
+    },
+    {
+        "id": "c0de00000000001b",
+        "type": "function",
+        "z": "c0de000000000001",
+        "name": "Gradient",
+        "func": "const commands = [];\nfor (let x = 0; x < 128; x++) {\n    commands.push({ cmd: 'line', args: [x, 0, x, 31, x * 2] });\n}\ncommands.push({ cmd: 'text', x: 37, y: 12, text: 'Grayscale', v: 255, bg: 0 });\nmsg.payload = commands;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 830,
+        "wires": [
+            [
+                "c0de00000000001a"
+            ]
+        ]
+    },
+    {
+        "id": "c0de00000000001c",
+        "type": "inject",
+        "z": "c0de000000000001",
+        "name": "Gradient",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.5,
+        "topic": "",
+        "x": 170,
+        "y": 830,
+        "wires": [
+            [
+                "c0de00000000001b"
+            ]
+        ],
+        "payload": "",
+        "payloadType": "str"
+    },
+    {
+        "id": "f72914043b649b14",
+        "type": "ui-page",
+        "name": "Page 1",
+        "ui": "2855b80470e86e6b",
+        "path": "/page1",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "47ff0fe3a42d3e83",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": 0,
+                "cols": 3
+            },
+            {
+                "name": "Tablet",
+                "px": 576,
+                "cols": 6
+            },
+            {
+                "name": "Small Desktop",
+                "px": 768,
+                "cols": 9
+            },
+            {
+                "name": "Desktop",
+                "px": 1024,
+                "cols": 12
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "2855b80470e86e6b",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true
+    },
+    {
+        "id": "47ff0fe3a42d3e83",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    }
+]

@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    RED.nodes.registerType('ui-lcd', {
+    RED.nodes.registerType('ui-glcd', {
         category: RED._('@flowfuse/node-red-dashboard/ui-base:ui-base.label.category'),
         color: RED._('@flowfuse/node-red-dashboard/ui-base:ui-base.colors.light'),
         defaults: {
@@ -19,10 +19,11 @@
             },
             height: { value: 0 },
 
-            label: { value: "LCD" },
-            rows : { value: 2 },
-            cols : { value: 16 },
-            pixel_size: { value: 3 },
+            label: { value: "Graphic LCD" },
+            lcd_width: { value: 128 },
+            lcd_height: { value: 64 },
+            grayscale: { value: false },
+            pixel_size: { value: 2 },
             space_size: { value: 1 },
             backlight_color: { value: "#ccdd22" },
             pixel_color: { value: "#474d0b" },
@@ -38,9 +39,9 @@
         },
         inputs: 1,
         outputs: 0,
-        icon: "font-awesome/fa-terminal",
+        icon: "font-awesome/fa-picture-o",
         label: function() {
-            return this.name || "LCD";
+            return this.name || "Graphic LCD";
         },
         oneditprepare: function () {
             $('#node-input-size').elementSizer({
@@ -58,7 +59,7 @@
     });
 </script>
 
-<script type="text/html" data-template-name="ui-lcd">
+<script type="text/html" data-template-name="ui-glcd">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
@@ -78,16 +79,20 @@
         <input type="text" id="node-input-label">
     </div>
     <div class="form-row">
-        <label for="node-input-rows"><i class="fa fa-th"></i> Rows</label>
-        <input type="number" id="node-input-rows" min="1" value="2">
+        <label for="node-input-lcd_width"><i class="fa fa-arrows-h"></i> Width (pixels)</label>
+        <input type="number" id="node-input-lcd_width" min="1" value="128">
     </div>
     <div class="form-row">
-        <label for="node-input-cols"><i class="fa fa-columns"></i> Columns</label>
-        <input type="number" id="node-input-cols" min="1" value="16">
+        <label for="node-input-lcd_height"><i class="fa fa-arrows-v"></i> Height (pixels)</label>
+        <input type="number" id="node-input-lcd_height" min="1" value="64">
+    </div>
+    <div class="form-row">
+        <label for="node-input-grayscale"><i class="fa fa-adjust"></i> Grayscale</label>
+        <input type="checkbox" id="node-input-grayscale">
     </div>
     <div class="form-row">
         <label for="node-input-pixel_size"><i class="fa fa-th-large"></i> Pixel Size</label>
-        <input type="number" id="node-input-pixel_size" min="1" value="3">
+        <input type="number" id="node-input-pixel_size" min="1" value="2">
     </div>
     <div class="form-row">
         <label for="node-input-space_size"><i class="fa fa-arrows-h"></i> Space Size</label>
