@@ -1,4 +1,6 @@
 # NPM suspended me due I just add a new 2FA key for new machine. So I need to use this way instead.
+# still not work. "Your account has been temporarily suspended due to a recent security-sensitive action."
+# use "npm install DPSoftware-Technologies/node-red-dashboard-2-ui-lcd#main" instead
 name: Publish Package
 
 on:
